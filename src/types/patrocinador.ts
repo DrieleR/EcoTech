@@ -1,21 +1,22 @@
 interface Patrocinador {
     nome: string
+    logo: string
 }
 
-export const master: Patrocinador = {nome: "Patrocinador Master"}
+export const master: Patrocinador = {nome: "Vale", logo: "/logos/vale.png"}
 
 export const ouro: Patrocinador[] = [
-    {nome: 'Patrocinador Ouro 01'},
-    {nome: 'Patrocinador Ouro 02'},
-    {nome: 'Patrocinador Ouro 03'},
+    {nome: 'Google', logo: '/logos/google.png'},
+    {nome: 'Microsoft', logo: '/logos/microsoft.png'},
+    {nome: 'Petrobras', logo: '/logos/petrobras.png'},
 ]
 
 export const prata: Patrocinador[] = [
-    {nome: 'Patrocinador Prata 01'},
-    {nome: 'Patrocinador Prata 02'},
-    {nome: 'Patrocinador Prata 03'},
-    {nome: 'Patrocinador Prata 04'},
-    {nome: 'Patrocinador Prata 05'},
+    {nome: 'Amazon Web Services', logo: '/logos/aws.png'},
+    {nome: 'IBM', logo: '/logos/ibm.png'},
+    {nome: 'Nubank', logo: '/logos/nubank.png'},
+    {nome: 'Equatorial Energia', logo: '/logos/equatorial.png'},
+    {nome: 'Hotmart', logo: '/logos/hotmart.png'},
 ]
 
 export type tamanho = 'normal' | 'big'

@@ -1,5 +1,6 @@
 import { TRANSPORTES } from "../consts/transporte";
 import { MapPin } from "lucide-react";
+import plantaCampus from "../assets/planta-campus.png";
 
 export default function Local() {
   return (
@@ -33,21 +34,22 @@ export default function Local() {
               Evento presencial • 15 a 18 de Outubro
             </p>
 
-            <button className="mt-8 rounded-full bg-white px-6 py-3 font-sora font-bold text-eco-blue cursor-pointer">
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Universidade+do+Estado+do+Para+Campus+Ananindeua"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-block rounded-full bg-white px-6 py-3 font-sora font-bold text-eco-blue cursor-pointer"
+            >
               Ver no mapa
-            </button>
+            </a>
           </div>
 
-          <div className="flex flex-col items-center justify-center rounded-3xl border-2 border-eco-blue bg-white p-10 text-center">
-            <div className="flex h-28 w-28 items-center justify-center rounded-full bg-eco-blue/10">
-              <MapPin size={48} className="text-eco-blue" />
-            </div>
-            <h3 className="font-sora mt-6 text-xl font-bold text-eco-blue">
-              Mapa interativo em breve
-            </h3>
-            <p className="mt-2 max-w-sm text-sm text-eco-gray-light">
-              Toque em "Ver no mapa" para abrir a localização no Google Maps
-            </p>
+          <div className="overflow-hidden rounded-3xl border-2 border-eco-blue bg-white">
+            <img
+              src={plantaCampus}
+              alt="Planta arquitetônica genérica do campus universitário"
+              className="h-full w-full object-cover"
+            />
           </div>
         </div>
 

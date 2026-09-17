@@ -11,4 +11,5 @@ export const links: NavLinkItem[] = [
     { to: "/local", label: "Local" },
     { to: "/patrocinadores", label: "Patrocinadores" },
     { to: "/parceiros", label: "Parceiros" },
+    { to: "/inscricao", label: "Inscrição" },
 ]
