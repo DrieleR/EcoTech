@@ -21,7 +21,7 @@ const Sobre = () => {
     <section className="min-h-[70vh] bg-eco-cream px-6 py-24">
       <div className="mx-auto grid w-full min-w-0 max-w-6xl gap-12 lg:grid-cols-2 lg:items-center">
         <div>
-          <p className="font-sora text-sm font-extrabold uppercase tracking-widest text-eco-green">
+          <p className="font-sora text-sm font-extrabold uppercase tracking-widest text-eco-green-dark">
             Sobre o evento
           </p>
           <h1 className="font-sora mt-4 text-3xl font-bold leading-tight text-eco-blue sm:text-4xl lg:text-5xl">
