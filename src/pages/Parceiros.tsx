@@ -18,7 +18,7 @@ const Parceiros = () => {
 
         <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-3">
           {parceiros.map((p) => (
-            <CardPatrocinador key={p.nome} nome={p.nome} />
+            <CardPatrocinador key={p.nome} nome={p.nome} logo={p.logo} />
           ))}
         </div>
       </div>

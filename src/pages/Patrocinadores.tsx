@@ -18,19 +18,19 @@ const Patrocinadores = () => {
 
             <div className="mt-4 flex justify-center">
                 <div className="w-full max-w-md">
-                    <CardPatrocinador nome={master.nome} size="big"/>
+                    <CardPatrocinador nome={master.nome} logo={master.logo} size="big"/>
                 </div>
             </div>
 
             <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
                {ouro.map((p) => (
-                    <CardPatrocinador key={p.nome} nome={p.nome}/>
+                    <CardPatrocinador key={p.nome} nome={p.nome} logo={p.logo}/>
                ))}
             </div>
 
              <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-5">
                {prata.map((p) => (
-                    <CardPatrocinador key={p.nome} nome={p.nome}/>
+                    <CardPatrocinador key={p.nome} nome={p.nome} logo={p.logo}/>
                ))}
             </div>
         </div>
