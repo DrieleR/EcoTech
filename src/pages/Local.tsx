@@ -35,7 +35,7 @@ export default function Local() {
             </p>
 
             <a
-              href="https://www.google.com/maps/search/?api=1&query=Universidade+do+Estado+do+Para+Campus+Ananindeua"
+              href="https://www.google.com/maps/place/UEPA+-+Universidade+do+Estado+do+Par%C3%A1+-+Campus+XXII+Ananindeua/@-1.3442883,-48.4106319,17z/data=!3m1!4b1!4m6!3m5!1s0x92a46142af21ed2d:0x7fa4f155a5eecf6c!8m2!3d-1.3442937!4d-48.408057!16s%2Fg%2F11kbwx6wfn?entry=ttu&g_ep=EgoyMDI2MDkxNS4wIKXMDSoASAFQAw%3D%3D"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-8 inline-block rounded-full bg-white px-6 py-3 font-sora font-bold text-eco-blue cursor-pointer"
