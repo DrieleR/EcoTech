@@ -9,6 +9,9 @@ import Local from "../pages/Local"
 import Patrocinadores from "../pages/Patrocinadores"
 import Parceiros from "../pages/Parceiros"
 import Inscricao from "../pages/Inscricao"
+import PerfilPalestrante from "../pages/PerfilPalestrante"
+import Palestras from "../pages/Palestras"
+import PerfilPalestra from "../pages/PerfilPalestras"
 
 function AppRoutes() {
   const location = useLocation()
@@ -27,6 +30,9 @@ function AppRoutes() {
           <Route path="/patrocinadores" element={<Patrocinadores/>}/>
           <Route path="/parceiros" element={<Parceiros/>}/>
           <Route path="/inscricao" element={<Inscricao/>}/>
+          <Route path="/palestrantes/:slug" element={<PerfilPalestrante/>}/>
+          <Route path="/palestras" element={<Palestras/>}/>
+          <Route path="/palestras/:slug" element={<PerfilPalestra/>}/>
         </Routes>
       </main>
       {!isHome && <Footer/>}

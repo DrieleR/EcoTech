@@ -1,6 +1,8 @@
 import { useState } from "react"
+import { Link } from "react-router-dom";
 import { PROGRAMACAO } from "../consts/cronograma";
 import { Badge } from "../helpers/badge";
+import { getPalestranteByNome } from "../consts/palestrantes";
 
 const Cronograma = () => {
     const [diaAtivo, setDiaAtivo] = useState<1 | 2>(1);
@@ -56,7 +58,19 @@ const Cronograma = () => {
               <span className="text-black">{item.atividade}</span>
               <span className="text-black">
                 <span className="text-eco-blue lg:hidden">Palestrante: </span>
-                {item.palestrante}
+                {(() => {
+                  const palestrante = getPalestranteByNome(item.palestrante);
+                  return palestrante ? (
+                    <Link
+                      to={`/palestrantes/${palestrante.slug}`}
+                      className="underline decoration-eco-blue/40 underline-offset-2 hover:text-eco-blue"
+                    >
+                      {item.palestrante}
+                    </Link>
+                  ) : (
+                    item.palestrante
+                  );
+                })()}
               </span>
               <span className="text-black">
                 <span className="text-eco-blue lg:hidden">Local: </span>
