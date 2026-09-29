@@ -1,7 +1,31 @@
+import { useNavigate, useSearchParams } from "react-router-dom"
+import { CalendarCog, ListChecks, Users } from "lucide-react"
 import { useAuth } from "../hooks/useAuth"
+import { useDadosEvento } from "../hooks/useDadosEvento"
+import PainelLateral from "../components/PainelLateral"
+import AdminInscritos from "../components/admin/AdminInscritos"
+import AdminAtividades from "../components/admin/AdminAtividades"
+import AdminEvento from "../components/admin/AdminEvento"
+import { MensagemErro } from "../components/form/Campos"
+
+const SECOES = [
+  { id: "inscritos", label: "Inscritos", icon: <Users size={16} />, descricao: "Acompanhe quem se inscreveu, os pedidos de acessibilidade e exporte a lista." },
+  { id: "atividades", label: "Atividades", icon: <ListChecks size={16} />, descricao: "Cadastre minicursos e oficinas, com vagas e valores." },
+  { id: "evento", label: "Evento", icon: <CalendarCog size={16} />, descricao: "Edite datas, local, valor da inscrição e prazos." },
+]
 
 export default function PainelAdmin() {
-  const { usuario } = useAuth()
+  const { usuario, sair } = useAuth()
+  const navigate = useNavigate()
+  const { evento, atividades, erro, recarregar, setEvento } = useDadosEvento()
+  // A seção fica na URL (?secao=...) para sobreviver a um recarregamento
+  const [params, setParams] = useSearchParams()
+  const secao = SECOES.find((s) => s.id === params.get("secao")) ?? SECOES[0]
+
+  const fazerLogout = () => {
+    sair()
+    navigate("/")
+  }
 
   return (
     <section className="min-h-[70vh] bg-eco-cream px-6 py-24">
@@ -9,18 +33,29 @@ export default function PainelAdmin() {
         <p className="font-sora text-sm font-extrabold uppercase tracking-widest text-eco-green-dark">
           Painel do administrador
         </p>
-        <h1 className="font-sora mt-4 text-3xl font-bold text-eco-blue sm:text-4xl">
-          Bem-vindo(a), {usuario?.nome}
-        </h1>
-        <p className="font-sora mt-4 text-lg text-eco-gray">
-          Área restrita da organização do EcoTech.
-        </p>
+        <h1 className="font-sora mt-2 text-3xl font-bold text-eco-blue sm:text-4xl">{secao.label}</h1>
+        <p className="font-sora mt-2 text-eco-gray">{secao.descricao}</p>
 
-        <div className="mt-10 rounded-3xl border-2 border-dashed border-eco-blue/30 bg-white p-10 text-center">
-          <p className="font-sora text-eco-gray">
-            As ferramentas de gestão (inscritos, palestras, exposições) serão
-            exibidas aqui quando a API estiver disponível.
-          </p>
+        <div className="mt-8 grid gap-6 lg:grid-cols-[240px_1fr] lg:items-start">
+          <PainelLateral
+            nome={usuario?.nome ?? ""}
+            email={usuario?.email ?? ""}
+            selo="Administrador"
+            itens={SECOES}
+            ativo={secao.id}
+            onSelecionar={(id) => setParams({ secao: id })}
+            onSair={fazerLogout}
+          />
+
+          <div className="min-w-0">
+            {erro && <MensagemErro>{erro}</MensagemErro>}
+            {!evento && !erro && <p className="font-sora text-eco-gray">Carregando...</p>}
+            {evento && secao.id === "inscritos" && <AdminInscritos atividades={atividades} />}
+            {evento && secao.id === "atividades" && (
+              <AdminAtividades atividades={atividades} evento={evento} onAlterar={recarregar} />
+            )}
+            {evento && secao.id === "evento" && <AdminEvento evento={evento} onSalvo={setEvento} />}
+          </div>
         </div>
       </div>
     </section>

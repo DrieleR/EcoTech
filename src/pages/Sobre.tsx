@@ -2,7 +2,6 @@ import { useState } from "react"
 import { ABAS_SOBRE, type AbaSobre } from "../consts/sobreEvento"
 import Parceiros from "../components/Parceiros"
 import Patrocinadores from "../components/Patrocinadores"
-import Acessibilidade from "../components/Acessibilidade"
 import SobreEvento from "../components/SobreEvento"
 
 const Sobre = () => {
@@ -37,7 +36,6 @@ const Sobre = () => {
         {abaAtiva === "sobre" && <SobreEvento />}
         {abaAtiva === "parceiros" && <Parceiros />}
         {abaAtiva === "patrocinadores" && <Patrocinadores />}
-        {abaAtiva === "acessibilidade" && <Acessibilidade />}
       </div>
     </div>
   )

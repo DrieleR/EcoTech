@@ -7,10 +7,11 @@ export interface Usuario {
   perfil: Perfil
 }
 
+// O login não recebe perfil: quem decide se a conta é de admin ou de
+// participante é o servidor, a partir da própria conta.
 export interface Credenciais {
   email: string
   senha: string
-  perfil: Perfil
 }
 
 // Formato esperado da resposta de POST /auth/login

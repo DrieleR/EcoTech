@@ -14,7 +14,7 @@ const NavBar = () => {
     // Link da área logada: participante vai para a inscrição, admin para o painel
     const areaLogada = usuario?.perfil === "admin"
       ? { to: "/admin", label: "Painel" }
-      : { to: "/minha-inscricao", label: "Minha inscrição" }
+      : { to: "/minha-conta", label: "Minha conta" }
 
     const fazerLogout = () => {
       sair()
@@ -34,7 +34,7 @@ const NavBar = () => {
         </div>
 
         {/* Menu para telas médias/grandes */}
-        <nav className="hidden shrink-0 items-center gap-10 lg:flex">
+        <nav className="hidden shrink-0 items-center gap-10 xl:flex">
           {links.map((link) => (
             <NavLink
               key={link.to}
@@ -44,8 +44,8 @@ const NavBar = () => {
               // (isActive), permitindo destacar com um sublinhado. O tipo
               // `{ isActive: boolean }` vem embutido no react-router-dom.
               className={({ isActive }) =>
-                `font-inter pb-2 text-[16px] font-bold text-white transition-opacity hover:opacity-80 ${
-                  isActive ? "border-b-2 border-white" : "border-b-2 border-transparent"
+                `font-inter border-y-2 py-2 text-[16px] font-bold text-white transition-opacity hover:opacity-80 ${
+                  isActive ? "border-t-transparent border-b-white" : "border-transparent"
                 }`
               }
             >
@@ -58,8 +58,8 @@ const NavBar = () => {
               <NavLink
                 to={areaLogada.to}
                 className={({ isActive }) =>
-                  `font-inter pb-2 text-[16px] font-bold text-white transition-opacity hover:opacity-80 ${
-                    isActive ? "border-b-2 border-white" : "border-b-2 border-transparent"
+                  `font-inter border-y-2 py-2 text-[16px] font-bold text-white transition-opacity hover:opacity-80 ${
+                    isActive ? "border-t-transparent border-b-white" : "border-transparent"
                   }`
                 }
               >
@@ -86,7 +86,7 @@ const NavBar = () => {
 
         {/* Botão hamburger, visível só em telas pequenas */}
         <button
-          className="shrink-0 text-white lg:hidden"
+          className="shrink-0 text-white xl:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-label="Abrir menu"
         >
@@ -96,7 +96,7 @@ const NavBar = () => {
 
       {/* Menu mobile: só renderiza a lista quando "open" é true */}
       {open && (
-        <nav className="flex flex-col gap-1 bg-esa-blue-dark px-6 pb-4 lg:hidden">
+        <nav className="flex flex-col gap-1 bg-eco-blue-dark px-6 pb-4 xl:hidden">
           {links.map((link) => (
             <NavLink
               key={link.to}

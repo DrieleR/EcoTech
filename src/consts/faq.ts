@@ -14,8 +14,8 @@ export const PERGUNTAS_FREQUENTES: PerguntaFrequente[] = [
   {
     pergunta: "Como faço minha inscrição?",
     resposta:
-      "Pelo formulário oficial de inscrição. Depois de enviar, você recebe um e-mail de confirmação.",
-    link: { to: "/inscricao", label: "Ver passo a passo" },
+      "Pela página de inscrição: preencha seus dados, escolha os minicursos e confirme. Depois, acompanhe tudo em Minha conta.",
+    link: { to: "/inscricao", label: "Fazer inscrição" },
   },
   {
     pergunta: "O evento é acessível?",
