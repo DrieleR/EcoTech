@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { FILTRO_PARA_CATEGORIA, CORES_TAG, FILTROS, TRABALHOS } from "../consts/exposicoes";
 import { type Filtro } from "../types/exposicoes";
-import { Image as ImageIcon } from "lucide-react";
 
 export default function Exposicoes() {
   const [filtroAtivo, setFiltroAtivo] = useState<Filtro>("Todos");
@@ -55,17 +54,19 @@ export default function Exposicoes() {
               key={t.titulo}
               className="rounded-2xl border border-gray-300 bg-white p-3"
             >
-              <div className="relative flex h-35 items-center justify-center rounded-xl bg-[#ebf0f7]">
+              <div className="relative h-48 overflow-hidden rounded-xl bg-[#ebf0f7]">
+                <img
+                  src={t.imagem}
+                  alt={t.alt}
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
                 <span
-                  className={`absolute left-3 top-3 rounded-full px-3 py-1 text-[11px] font-bold text-white ${
+                  className={`absolute left-3 top-3 rounded-full px-3 py-1 text-[11px] font-bold text-white shadow-sm ${
                     CORES_TAG[t.categoria]
                   }`}
                 >
                   {t.categoria}
-                </span>
-                <ImageIcon className="text-[#c7d4e5]" size={40} />
-                <span className="ml-2 text-xs font-bold text-eco-gray-light">
-                  BANNER
                 </span>
               </div>
 
