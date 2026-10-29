@@ -1,7 +1,9 @@
 import { CardPatrocinador } from "../shared/CardPatrocinador"
-import { master, ouro, prata } from "../types/patrocinador"
+import { useSite } from "../hooks/useSite"
 
 const Patrocinadores = () => {
+  const { sobre } = useSite()
+  const { master, ouro, prata } = sobre.patrocinadores
   return (
     <section className='min-h-[70vh] bg-eco-cream px-6 py-24'>
         <div className="mx-auto max-w-6xl text-center">
@@ -16,21 +18,23 @@ const Patrocinadores = () => {
                 PATROCINADORES
             </p>
 
+            {master[0] && (
             <div className="mt-4 flex justify-center">
                 <div className="w-full max-w-md">
-                    <CardPatrocinador nome={master.nome} logo={master.logo} size="big"/>
+                    <CardPatrocinador nome={master[0].nome} logo={master[0].logo} size="big"/>
                 </div>
             </div>
+            )}
 
             <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
                {ouro.map((p) => (
-                    <CardPatrocinador key={p.nome} nome={p.nome} logo={p.logo}/>
+                    <CardPatrocinador key={p.id} nome={p.nome} logo={p.logo}/>
                ))}
             </div>
 
              <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-5">
                {prata.map((p) => (
-                    <CardPatrocinador key={p.nome} nome={p.nome} logo={p.logo}/>
+                    <CardPatrocinador key={p.id} nome={p.nome} logo={p.logo}/>
                ))}
             </div>
         </div>

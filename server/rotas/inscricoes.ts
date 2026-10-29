@@ -12,6 +12,9 @@ import {
 import { urlDoSite } from "../site.ts"
 import {
   confirmarPagamento,
+  eventoEncerrado,
+  obterSite,
+  obterSobre,
   inscricaoDoUsuario,
   listarAtividades,
   obterEvento,
@@ -29,6 +32,14 @@ rotasPublicas.get("/evento", async (_req, res) => {
   res.json(await obterEvento())
 })
 
+rotasPublicas.get("/site", async (_req, res) => {
+  res.json(await obterSite())
+})
+
+rotasPublicas.get("/sobre", async (_req, res) => {
+  res.json(await obterSobre())
+})
+
 rotasPublicas.get("/atividades", async (_req, res) => {
   res.json(await listarAtividades())
 })
@@ -39,6 +50,7 @@ rotasPublicas.post("/inscricoes", limitarTentativas({ maximo: 300, janelaMin: 60
   const senhaHash = await gerarHashSenha(senha)
 
   const resultado = await transacao(async (db) => {
+    if (await eventoEncerrado(db)) throw new ErroHttp(409, "As inscrições deste evento foram encerradas.")
     const evento = await obterEvento(db)
     // Trava as atividades para ninguém pegar a última vaga ao mesmo tempo
     const atividades = await listarAtividades(db, true)

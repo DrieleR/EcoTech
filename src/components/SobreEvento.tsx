@@ -1,10 +1,13 @@
 import {useState} from 'react'
-import { ITENS_EVENTO } from '../consts/sobreEvento'
+import { useSite } from '../hooks/useSite'
 import { ChevronLeft, ChevronRight
  } from 'lucide-react'
 
 const SobreEvento = () => {
-  const [indiceAtivo, setIndiceAtivo] = useState(0)
+  const { sobre } = useSite()
+  const ITENS_EVENTO = sobre.itens
+  const [indice, setIndiceAtivo] = useState(0)
+  const indiceAtivo = Math.min(indice, Math.max(ITENS_EVENTO.length - 1, 0))
 
   const irParaAnterior = () => {
     setIndiceAtivo((atual) =>
@@ -26,26 +29,22 @@ const SobreEvento = () => {
             Sobre o evento
           </p>
           <h1 className="font-sora mt-4 text-3xl font-bold leading-tight text-eco-blue sm:text-4xl lg:text-5xl">
-            Um encontro para quem constrói software na região
+            {sobre.titulo}
           </h1>
           <p className="font-sora mt-6 text-lg text-eco-gray">
-            O EcoTech nasce como o primeiro evento de engenharia de software e
-            meio ambiente voltado à realidade amazônica: conectividade
-            limitada, dados ambientais, times distribuídos e desafios que
-            raramente aparecem nos grandes centros. A proposta é reunir
-            estudantes, pesquisadoras e profissionais para discutir prática,
-            arquitetura e sustentabilidade a partir daqui.
+            {sobre.texto}
           </p>
         </div>
 
+        {ITENS_EVENTO.length > 0 && (
         <div className="relative min-w-0 rounded-3xl bg-eco-blue px-6 py-8 sm:px-10 sm:py-10">
             <div className="min-w-0 overflow-hidden">
                 <div
                     className="flex transition-transform duration-500 ease-in-out"
                     style={{ transform: `translateX(-${indiceAtivo * 100}%)` }}
                 >
-                    {ITENS_EVENTO.map((item) => (
-                    <div key={item.titulo} className="w-full shrink-0">
+                    {ITENS_EVENTO.map((item, index) => (
+                    <div key={index} className="w-full shrink-0">
                         <p className="font-sora text-2xl text-center font-extrabold tracking-wide text-eco-green">
                         {item.titulo.toUpperCase()}
                         </p>
@@ -69,7 +68,7 @@ const SobreEvento = () => {
             <div className="flex gap-2">
               {ITENS_EVENTO.map((item, index) => (
                 <button
-                  key={item.titulo}
+                  key={index}
                   onClick={() => setIndiceAtivo(index)}
                   aria-label={`Ir para ${item.titulo}`}
                   className={`h-2.5 w-2.5 rounded-full transition-colors cursor-pointer ${
@@ -88,6 +87,7 @@ const SobreEvento = () => {
             </button>
           </div>
         </div>
+        )}
       </div>
     </section>
   )

@@ -96,3 +96,24 @@ alter table inscricoes add constraint inscricoes_status_check
 
 -- Não há mais limite de minicursos por pessoa
 alter table evento drop column if exists limite_minicursos;
+
+-- Personalização do site (identidade, home, menu) e histórico de eventos
+alter table evento add column if not exists site jsonb;
+alter table evento add column if not exists status text not null default 'ativo';
+alter table evento drop constraint if exists evento_status_check;
+alter table evento add constraint evento_status_check check (status in ('ativo', 'encerrado'));
+
+create table if not exists eventos_anteriores (
+  id           uuid primary key default gen_random_uuid(),
+  nome         text not null,
+  encerrado_em timestamptz not null default now(),
+  data_inicio  date not null,
+  data_fim     date not null,
+  local        text not null,
+  inscritos    int not null,
+  atividades   int not null,
+  site         jsonb
+);
+
+-- Conteúdo da página Sobre (texto, carrossel, parceiros, patrocinadores)
+alter table evento add column if not exists sobre jsonb;

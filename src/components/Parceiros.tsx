@@ -1,7 +1,8 @@
-import { parceiros } from "../types/parceiros"
+import { useSite } from "../hooks/useSite"
 import { CardPatrocinador } from "../shared/CardPatrocinador"
 
 const Parceiros = () => {
+  const { sobre } = useSite()
   return (
     <section className="min-h-[70vh] bg-eco-cream px-6 py-24">
       <div className="mx-auto max-w-6xl text-center">
@@ -17,8 +18,8 @@ const Parceiros = () => {
         </p>
 
         <div className="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-3">
-          {parceiros.map((p) => (
-            <CardPatrocinador key={p.nome} nome={p.nome} logo={p.logo} />
+          {sobre.parceiros.map((p) => (
+            <CardPatrocinador key={p.id} nome={p.nome} logo={p.logo} />
           ))}
         </div>
       </div>

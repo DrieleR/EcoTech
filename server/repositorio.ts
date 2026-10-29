@@ -2,6 +2,10 @@
 // (snake_case) para os mesmos tipos que o front-end já usa.
 
 import { pool, type Conexao } from "./db.ts"
+import { SITE_PADRAO } from "../src/consts/site.ts"
+import { SOBRE_PADRAO } from "../src/consts/sobre.ts"
+import type { ConfigSobre } from "../src/types/sobre.ts"
+import type { ConfigSite, SiteResposta } from "../src/types/site.ts"
 import type { AtividadeComVagas, DadosEvento, Inscricao } from "../src/types/inscricao.ts"
 
 export async function obterEvento(conexao: Conexao = pool): Promise<DadosEvento> {
@@ -87,4 +91,22 @@ export async function confirmarPagamento(conexao: Conexao, inscricaoId: string) 
     [inscricaoId]
   )
   return rowCount === 1
+}
+
+// Configuração do site: o que o admin salvou, completado com os padrões
+export async function obterSite(conexao: Conexao = pool): Promise<SiteResposta> {
+  const { rows } = await conexao.query(`select site, status, data_inicio as "dataInicio" from evento where id = 1`)
+  if (!rows[0]) throw new Error("Dados do evento não cadastrados. Rode npm run db:setup.")
+  const salvo = (rows[0].site ?? {}) as Partial<ConfigSite>
+  return { ...SITE_PADRAO, ...salvo, status: rows[0].status, dataInicio: rows[0].dataInicio }
+}
+
+export async function eventoEncerrado(conexao: Conexao = pool) {
+  const { rows } = await conexao.query("select status from evento where id = 1")
+  return rows[0]?.status === "encerrado"
+}
+
+export async function obterSobre(conexao: Conexao = pool): Promise<ConfigSobre> {
+  const { rows } = await conexao.query("select sobre from evento where id = 1")
+  return { ...SOBRE_PADRAO, ...(rows[0]?.sobre ?? {}) }
 }

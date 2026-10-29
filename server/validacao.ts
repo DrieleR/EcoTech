@@ -85,6 +85,57 @@ export const esquemaEvento = z
   .refine((e) => e.dataFim >= e.dataInicio, "A data de término precisa ser depois do início.")
   .refine((e) => e.prazoReembolso <= e.dataInicio, "O prazo de reembolso precisa ser antes do evento.")
 
+const cor = z.string().regex(/^#[0-9a-fA-F]{6}$/, "Cor inválida.")
+const imagem = z
+  .string()
+  .max(1_400_000, "Imagem muito pesada.")
+  .refine((v) => v === "" || /^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(v), "Imagem inválida.")
+
+export const esquemaSite = z.object({
+  titulo: texto(150).min(1, "Informe o título principal."),
+  descricao: texto(400).min(1, "Informe a descrição."),
+  dataExibicao: texto(60).min(1, "Informe a data."),
+  localExibicao: texto(80).min(1, "Informe o local."),
+  template: z.enum(["classico", "moderno", "minimalista"]),
+  corPrimaria: cor,
+  corSecundaria: cor,
+  corFundo: cor,
+  logoUrl: imagem,
+  bannerUrl: imagem,
+  menu: z
+    .array(
+      z.object({
+        id: texto(40).min(1),
+        rotulo: texto(30).min(1, "Todo item do menu precisa de um nome."),
+        to: z.string().regex(/^\/[a-z0-9\-/]*$/i, "Rota inválida."),
+        visivel: z.boolean(),
+      })
+    )
+    .min(1)
+    .max(20),
+})
+
+const logo = z
+  .string()
+  .max(400_000, "Logo muito pesada.")
+  .refine(
+    (v) => v === "" || /^\/logos\/[\w.-]+$/.test(v) || /^https:\/\/\S+$/.test(v) || /^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(v),
+    "Logo inválida."
+  )
+const entidade = z.object({ id: texto(40).min(1), nome: texto(80).min(1, "Informe o nome de cada parceiro/patrocinador."), logo })
+
+export const esquemaSobre = z.object({
+  titulo: texto(150).min(1, "Informe o título."),
+  texto: texto(1500).min(1, "Informe o texto."),
+  itens: z.array(z.object({ titulo: texto(40).min(1, "Todo item do carrossel precisa de título."), descricao: texto(500).min(1, "Todo item do carrossel precisa de descrição.") })).max(12),
+  parceiros: z.array(entidade).max(40),
+  patrocinadores: z.object({
+    master: z.array(entidade).max(1),
+    ouro: z.array(entidade).max(20),
+    prata: z.array(entidade).max(40),
+  }),
+})
+
 // Valida e devolve os dados limpos; se algo estiver errado, responde 400
 // com a primeira mensagem, que a tela mostra para a pessoa.
 export function validar<T>(esquema: z.ZodType<T>, dados: unknown): T {

@@ -1,9 +1,9 @@
 import { Router } from "express"
 import { z } from "zod"
-import { pool } from "../db.ts"
+import { pool, transacao } from "../db.ts"
 import { ErroHttp, exigirLogin } from "../seguranca.ts"
-import { listarAtividades, todasInscricoes } from "../repositorio.ts"
-import { esquemaAtividade, esquemaEvento, validar } from "../validacao.ts"
+import { eventoEncerrado, listarAtividades, obterSite, obterSobre, todasInscricoes } from "../repositorio.ts"
+import { esquemaAtividade, esquemaEvento, esquemaSite, esquemaSobre, validar } from "../validacao.ts"
 
 // Todas as rotas daqui exigem uma sessão de administrador
 export const rotasAdmin = Router()
@@ -75,4 +75,41 @@ rotasAdmin.put("/evento", async (req, res) => {
      e.prazoTrocaAtividades, e.prazoReembolso]
   )
   res.json(rows[0])
+})
+
+rotasAdmin.put("/site", async (req, res) => {
+  const site = validar(esquemaSite, req.body)
+  await pool.query("update evento set site = $1 where id = 1", [JSON.stringify(site)])
+  res.json(await obterSite())
+})
+
+// Arquiva o evento (guarda um resumo) e fecha as inscrições. Não apaga nada.
+rotasAdmin.post("/evento/encerrar", async (_req, res) => {
+  await transacao(async (db) => {
+    if (await eventoEncerrado(db)) throw new ErroHttp(409, "O evento já está encerrado.")
+    await db.query(
+      `insert into eventos_anteriores (nome, data_inicio, data_fim, local, inscritos, atividades, site)
+       select e.nome, e.data_inicio, e.data_fim, e.local,
+              (select count(*)::int from inscricoes where status <> 'cancelada'),
+              (select count(*)::int from atividades), e.site
+         from evento e where e.id = 1`
+    )
+    await db.query("update evento set status = 'encerrado' where id = 1")
+  })
+  res.json(await obterSite())
+})
+
+rotasAdmin.get("/eventos-anteriores", async (_req, res) => {
+  const { rows } = await pool.query(
+    `select id, nome, encerrado_em as "encerradoEm", data_inicio as "dataInicio", data_fim as "dataFim",
+            local, inscritos, atividades
+       from eventos_anteriores order by encerrado_em desc`
+  )
+  res.json(rows.map((r) => ({ ...r, encerradoEm: r.encerradoEm.toISOString() })))
+})
+
+rotasAdmin.put("/sobre", async (req, res) => {
+  const sobre = validar(esquemaSobre, req.body)
+  await pool.query("update evento set sobre = $1 where id = 1", [JSON.stringify(sobre)])
+  res.json(await obterSobre())
 })

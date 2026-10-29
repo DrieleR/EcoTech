@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { LogIn, LogOut, Menu, X } from "lucide-react";
-import { links } from "../consts/navbar";
+import { useSite } from "../hooks/useSite";
 import { useAuth } from "../hooks/useAuth";
 import ecoLogo from '../assets/exo_logo_branca.png'
 
@@ -9,6 +9,8 @@ import ecoLogo from '../assets/exo_logo_branca.png'
 const NavBar = () => {
     const [open, setOpen] = useState<boolean>(false)
     const { usuario, sair } = useAuth()
+    const { site } = useSite()
+    const links = site.menu.filter((i) => i.visivel).map((i) => ({ to: i.to, label: i.rotulo }))
     const navigate = useNavigate()
 
     // Link da área logada: participante vai para a inscrição, admin para o painel
@@ -26,7 +28,7 @@ const NavBar = () => {
       <div className="mx-auto flex w-full min-w-0 max-w-7xl items-center justify-between gap-8 px-6 py-4 lg:gap-12 lg:px-8">
         {/* Logo + nome do evento */}
         <div className="flex min-w-0 shrink items-center gap-3">
-          <img src={ecoLogo} alt="Logo ESA" className="h-9 w-9 shrink-0" />
+          <img src={site.logoUrl || ecoLogo} alt="Logo ESA" className="h-9 w-9 shrink-0" />
           <span className="min-w-0 truncate whitespace-nowrap font-inter text-lg font-black leading-none text-eco-cream-light">
             <span className="sm:hidden">EcoTech</span>
            

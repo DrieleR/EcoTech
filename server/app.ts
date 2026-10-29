@@ -15,6 +15,8 @@ app.use(helmet())
 // Em dev o Vite repassa /api para cá (mesma origem). CORS só é necessário se
 // o front for publicado em outro domínio: informe-o em FRONTEND_URL.
 if (process.env.FRONTEND_URL) app.use(cors({ origin: process.env.FRONTEND_URL }))
+// A personalização do site leva imagens (data URL): limite maior só nesta rota
+app.use(["/api/admin/site", "/api/admin/sobre"], express.json({ limit: "3mb" }))
 app.use(express.json({ limit: "50kb" }))
 
 const api = express.Router()
